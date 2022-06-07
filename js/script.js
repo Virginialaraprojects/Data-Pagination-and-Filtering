@@ -1,4 +1,4 @@
-/*
+ /*
 Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
@@ -20,6 +20,7 @@ This function will create and insert/append the elements needed to display a "pa
 //@param{string} list- the student data
 //@param{number} page- the page number
 const studentsPerPage= 9;
+
 function showPage(list, page){
    // variable to store startIndex and endIndex of list items for given page.
    const startIndex =(page * studentsPerPage)- studentsPerPage;
@@ -36,64 +37,56 @@ function showPage(list, page){
             const html =`<li class="student-item cf">
             <div class="student-details">
             <img class="avatar" src=${list[i].picture.large} alt="Profile Picture">
-            <h3> ${list[i].name.first} ${list[i].name.last}</h3>
+            <h3>${list[i].name.first} ${list[i].name.last} </h3>
             <span class="email">${list[i].email}</span>
-            </div>
-            <div class="joined-details">
+          </div>
            <span class="date">Joined ${list[i].registered.date}</span>
            </div>
            </li>`;
    //using .insertAdjacentHtml method to attach the html to ul 
    studentList.insertAdjacentHTML('beforeend',html);
-         
+      
       }  
-
    }
 }
-
-
-
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
-*/
+//
+//create the 'addpPagination' function 
+//this function will create and insert / append the elements needed for the pagination buttons.
 //@param{string} list- the student data
 function addPagination(list){
 //created a varaible to store the number pagination button needed.
-   const pagButton=Math.floor(list.length /studentsPerPage);
- //select ul element with the classname 'link-list' and store in variable.
-   const linkList=document.querySelector('.link-list');
-    //set linkList varaible html content to an empty string 
+   const pagButton=Math.ceil(list.length/studentsPerPage);
+    //select ul element with the classname 'link-list' and store in variable.
+   const linkList= document.querySelector('.link-list');
+   //set linkList varaible html content to an empty string 
    linkList.innerHTML='';
-   //for loop to create the number of pages needed
-   for (let i =0; i< pagButton; i++){
-      //create the li element 
-         const li=document.createElement('li');
-      //create a button element
-         const button= document.createElement('button');
-      // use.appendChild method to append 'button' to 'li'
-         li.appendChild(button);
-         //using a template literal to display the button as you  iterate over the number of pages
-         const html= `<li>
-         <button type="button">${i +1}</button>
-         </li>`;
+     //for loop to create the number of pages needed
+   for(let i=1; i<=pagButton; i++){
+        //using a template literal to display the button as you  iterate over the number of pages
+      const html= `<li>
+      <button type="button">${i}</button>
+      </li>`;
    //using .insertAdjacentHtml method to attach the html to ul 
    linkList.insertAdjacentHTML('beforeend',html);
-   li.firstElementChild.className='active';
-   }
+      //assign the variable 'button' to the button element
+      const button=document.querySelector('button');
+      button.className=('active');
    //use .addEventListner to fire only when the user clicks 
-   linkList.addEventListener('click',(e)=>{
-         if(e.target.tagName ==='BUTTON'){
-           const activeClass =document.getElementsByClassName('active');
-           for(let i=0; i< activeClass.length; i++) 
+   linkList.addEventListener('click', (e)=>{
+      if (e.target.tagName ==='BUTTON'){
+         const activeClass= document.querySelector('.active');
+         activeClass.className ='';
          e.target.className='active';
          showPage(list, e.target.textContent);
-         }
+      }
+
+
+
+
    })
-   
+   }
+
 }
-
-
 
 // Call functions
 showPage(data, 1);//will start on page one and show the students information data list 
